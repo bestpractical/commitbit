@@ -1,0 +1,15 @@
+<&|/_elements/wrapper, title => 'Commit bit!' &>
+
+<h1><%_('Welcome to CommitBit')%></h1>
+
+<p><%_('Locally hosted projects')%></p>
+<dl>
+% my $projects = CommitBit::Model::ProjectCollection->new;
+% $projects->unlimit();
+% while ( my $p = $projects->next ) {
+<dt><%Jifty->web->link( url => '/project/'.$p->name, label => $p->name)%></dt>
+<dd<%$p->description%></dd>
+% }
+</dl>
+
+</&>

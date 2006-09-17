@@ -1,0 +1,60 @@
+<%args>
+$project
+</%args>
+<%init>
+my $edit = Jifty->web->new_action(class =>'UpdateProject', record => $project);
+</%init>
+<&|/_elements/wrapper,title => $project->name &>
+<h1><%$project->name%></h1>
+<blockquote>
+    <%$project->description%>
+</blockquote>
+
+<h2>Mailing lists</h2>
+
+<%Jifty->web->link( url => $project->lists_url, label => $project->lists_url)%>
+
+<h2>Wiki</h2>
+
+<%Jifty->web->link( url => $project->wiki_url, label => $project->wiki_url)%>
+
+<h2>Bug tracking</h2>
+
+<%Jifty->web->link( url => $project->bugtracker_url, label => $project->bugtracker_url)%>
+
+<h2>Version control</h2>
+
+<h3>Repository browser</h3>
+
+<%Jifty->web->link( url => $project->svnweb_url, label => $project->svnweb_url)%>
+
+
+<h3>Anonymous access</h3>
+
+<%Jifty->web->link( url => $project->svn_url_anon, label => $project->svn_url_anon)%>
+
+<h3>Committer access</h3>
+<%Jifty->web->link( url => $project->svn_url_auth, label => $project->svn_url_auth)%>
+<h2>License</h2>
+
+<div id="people">
+    <h2>People</h2>
+
+    <h3>Administrators</h3>
+<ul>
+% while (my $u = $admins->next) {
+<li><%$u->name_and_email%></li>
+% }
+</ul>
+    <h3>Authors</h3>
+<ul>
+% while (my $u = $authors->next) {
+<li><%$u->name_and_email%></li>
+% }
+</div>
+</&>
+<%init>
+my $authors = $project->members;
+my $admins = $project->admins;
+
+</%init>
