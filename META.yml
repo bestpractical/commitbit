@@ -1,0 +1,12 @@
+distribution_type: module
+generated_by: Module::Install version 0.63
+license: Perl
+name: CommitBit
+no_index: 
+  directory: 
+    - inc
+    - t
+requires: 
+  Jifty: 0.60728
+  Text::Password::Pronounceable: 0
+version: 0.01
