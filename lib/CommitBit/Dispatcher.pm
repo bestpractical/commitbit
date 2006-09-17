@@ -1,13 +1,21 @@
 package CommitBit::Dispatcher;
 use Jifty::Dispatcher -base;
 
+
+# Log out
+before 'logout' => run {
+    Jifty->web->new_action(
+        class   => 'Logout',
+        moniker => 'logout',
+    )->run;
+};
 before '*' => run {
     if (Jifty->web->current_user->id) {
-        Jifty->web->navigation->child( logout=>label=>_( 'Logout'), url => '/logout');
+        Jifty->web->navigation->child( logout=>label=>_( 'Logout'), url => '/logout', sort_order => 999);
     } else {
-        Jifty->web->navigation->child(login=>label=>_( 'Login'), url => '/login');
+        Jifty->web->navigation->child(login=>label=>_( 'Login'), url => '/login', sort_order => 999);
     }
-    if (Jifty->web->current_user->user_object->admin) {
+    if (Jifty->web->current_user->user_object and Jifty->web->current_user->user_object->admin) {
         Jifty->web->navigation->child(admin=>label=>_( 'Admin'), url => '/admin');
    }
 
@@ -44,14 +52,6 @@ on 'login' => run {
     set 'next' => Jifty->web->request->continuation
         || Jifty::Continuation->new(
         request => Jifty::Request->new( path => "/" ) );
-};
-
-# Log out
-before 'logout' => run {
-    Jifty->web->request->add_action(
-        class   => 'Logout',
-        moniker => 'logout',
-    );
 };
 
 ## LetMes

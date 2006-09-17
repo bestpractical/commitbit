@@ -47,21 +47,40 @@ sub create {
 
 }
 
-sub members {
+
+sub _related_people {
     my $self = shift;
     my $members = CommitBit::Model::UserCollection->new();
     my $projmembers =$members->join( alias1 => 'main', column1=>'id', table2 => 'project_members', column2 => 'person');
     $members->limit(alias =>$projmembers, column => 'project', value => $self->id);
-    $members->limit(alias => $projmembers, column => 'access_level', operator => '=', value => 'author', entry_aggregator => 'or');
-    $members->limit(alias => $projmembers, column => 'access_level', operator => '=', value => 'administrator', entry_aggregator => 'or');
+    return $projmembers => $members;
+}
+
+
+sub people {
+    my $self = shift;
+    my ($projmembers,$members) = $self->_related_people();
     return $members;
 }
 
-sub admins {
+
+sub observers {
     my $self = shift;
-    my $members = CommitBit::Model::UserCollection->new();
-    my $projmembers =$members->join( alias1 => 'main', column1=>'id', table2 => 'project_members', column2 => 'person');
-    $members->limit(alias =>$projmembers, column => 'project', value => $self->id);
+    my ($projmembers,$members) = $self->_related_people();
+    $members->limit(alias => $projmembers, column => 'access_level', operator => '=', value => 'observer', entry_aggregator => 'or');
+    return $members;
+}
+
+sub members {
+    my $self = shift;
+    my ($projmembers,$members) = $self->_related_people();
+    $members->limit(alias => $projmembers, column => 'access_level', operator => '=', value => 'author', entry_aggregator => 'or');
+    return $members;
+}
+
+sub administrators {
+    my $self = shift;
+    my ($projmembers,$members) = $self->_related_people();
     $members->limit(alias => $projmembers, column => 'access_level', operator => '=', value => 'administrator', entry_aggregator => 'or');
     return $members;
 }
@@ -71,10 +90,9 @@ sub is_project_admin {
     my $self = shift;
     my $person = shift; # user or currentuser
 
-    # XXX TODO, this is a hacky, heavy query.
-    my $admins = $self->admins();
-    $admins->limit( column => 'id', value =>$person->id);
-    return $admins->count;
+    my $administrators = $self->administrators();
+    $administrators->limit( column => 'id', value =>$person->id);
+    return $administrators->count;
 
 } 
 

@@ -1,5 +1,4 @@
-<&|/_elements/wrapper&>
-<h1>Projects in <%$repository->name%>
+<&|/_elements/wrapper, title => _('Projects in %1',$repository->name) &>
 <% Jifty->web->form->start%>
 % my $projects = $repository->projects;
 <ul>

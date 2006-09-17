@@ -40,21 +40,21 @@ my $edit = Jifty->web->new_action(class =>'UpdateProject', record => $project);
 <div id="people">
     <h2>People</h2>
 
-    <h3>Administrators</h3>
+% foreach my $type (sort keys %people) {
+
+<h3><%_(ucfirst($type))%></h3>
 <ul>
-% while (my $u = $admins->next) {
+% while (my $u = $people{$type}->next) {
 <li><%$u->name_and_email%></li>
 % }
 </ul>
-    <h3>Authors</h3>
-<ul>
-% while (my $u = $authors->next) {
-<li><%$u->name_and_email%></li>
-% }
+%}
 </div>
 </&>
 <%init>
-my $authors = $project->members;
-my $admins = $project->admins;
-
+my %people = (
+ observers => $project->observers,
+ authors => $project->members,
+ administrators => $project->administrators
+);
 </%init>

@@ -33,3 +33,4 @@ framework:
     TemplateRoot: share/web/templates
 application:
   repository_prefix: repos
+  site_name: our projects

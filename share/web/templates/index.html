@@ -1,8 +1,7 @@
-<&|/_elements/wrapper, title => 'Commit bit!' &>
+<&|/_elements/wrapper, title => _('Welcome to CommitBit for %1', Jifty->config->app('site_name')) &>
 
-<h1><%_('Welcome to CommitBit')%></h1>
 
-<p><%_('Locally hosted projects')%></p>
+<h2><%_('Locally hosted projects')%></h2>
 <dl>
 % my $projects = CommitBit::Model::ProjectCollection->new;
 % $projects->unlimit();

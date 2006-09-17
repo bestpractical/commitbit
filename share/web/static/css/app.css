@@ -1,0 +1,19 @@
+div#salutation {
+ float: right;
+ position: absolute;
+ right:5px;
+ top: 5px;
+}
+
+div#people {
+
+    top: 1em;
+    clear: both;
+    position: absolute;
+    right: 10px;
+     
+   }
+
+div#people h3 {
+ text-decoration: underline ;
+}
