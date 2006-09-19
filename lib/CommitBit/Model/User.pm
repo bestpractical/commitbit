@@ -31,7 +31,6 @@ sub create {
 	$args->{password} = $PASSWORD_GEN->generate;
     }
     # XXX TODO, confirm email addresses always
-    $args->{'email_confirmed'} = 'true';
     return $self->SUPER::create(%$args);
 }
 
