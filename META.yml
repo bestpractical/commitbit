@@ -8,5 +8,7 @@ no_index:
     - t
 requires: 
   Jifty: 0.60728
+  Module::CoreList: 0
   Text::Password::Pronounceable: 0
+  UNIVERSAL::require: 0
 version: 0.01

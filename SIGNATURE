@@ -1,0 +1,80 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.54.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 be0627fff2e8aef3d2a14d5d7486babc8a4873ba COPYING/Artistic
+SHA1 0291ffea89744aaf525b9120e8a8e53f7ea81175 COPYING/dr.txt
+SHA1 17e3b0eea99abffe6ac71e65627413236e0b117a COPYING/gpl2.txt
+SHA1 7ccfa7d7c895c5873160ab75dfa97dd875666e12 MANIFEST
+SHA1 7ce4130e4dcf263de51ca07abe1bedd7085d3d21 META.yml
+SHA1 b11fa37e4cf5b7b71e47150a424a9f8fca21d163 Makefile.PL
+SHA1 667e15de6c64c5d128c63160ec09d36cd4acc116 README
+SHA1 7addd705c31eb12a4f7c59f6f2cb53137cf9e2bc bin/create_admin
+SHA1 a7dc1f376cac630ea28d2965e561469deb951cc7 bin/jifty
+SHA1 861b310287714491f29e0aa304f899f5ac0cd8b6 doc/integration
+SHA1 bd31fc04836545e0f4f17c8ce55683df6d12d95f etc/config.yml
+SHA1 9b2f9d83bcf77860f53a0c07c90a4a59ad9f5df1 inc/Module/Install.pm
+SHA1 abe32855d75ab13747cf65765af9947b7a8c3057 inc/Module/Install/Base.pm
+SHA1 95b81d1e91bd634467bf633571eff4420e9c04eb inc/Module/Install/Can.pm
+SHA1 1fe98c63cf9d7271c8cb4183ba230f152df69e26 inc/Module/Install/Fetch.pm
+SHA1 2249171a2b72cd73ff2c0a06597d29f86e5df456 inc/Module/Install/Makefile.pm
+SHA1 381bb98ea3877bba49ae85e7a7ea130645fd3dbf inc/Module/Install/Metadata.pm
+SHA1 0c2118868ef82ac517eb6d9c3bd93e6eb9bbf83e inc/Module/Install/Win32.pm
+SHA1 e827d6d43771032fa3df35c0ad5e5698d0e54cda inc/Module/Install/WriteAll.pm
+SHA1 f7ecbdce36ef71688829ff791efc6c3a2c4b51b9 lib/CommitBit.pm
+SHA1 c364a613cc76ae5eee0af9db45a37dc6365144d3 lib/CommitBit/Action/ConfirmEmail.pm
+SHA1 11b0bc89867e2c1947ab9be01fde1442a45d51b9 lib/CommitBit/Action/CreateProjectMember.pm
+SHA1 16056baffbdae607c2f187777f279596ff2eff26 lib/CommitBit/Action/Login.pm
+SHA1 218077e18cd611ae32ba823eaaec6ad50147e926 lib/CommitBit/Action/Logout.pm
+SHA1 917c96626c6593cf8746656d0e0ab32b1aa713b8 lib/CommitBit/CurrentUser.pm
+SHA1 8d1c014be7c3c5543ff84d01f4c2fe88387f113c lib/CommitBit/Dispatcher.pm
+SHA1 ad993dc1889d8e32af87600ddf3132fbfcab3e57 lib/CommitBit/Model/Project.pm
+SHA1 60b5145333951eaade89ba20f08c38cb0525bf73 lib/CommitBit/Model/ProjectMember.pm
+SHA1 6f647a820299c6dc6b1703120eaa30300b05bb73 lib/CommitBit/Model/Repository.pm
+SHA1 f9d986ef8bac21750003c7443de0936db8bc7582 lib/CommitBit/Model/User.pm
+SHA1 d4eec56bd790a8f61dde946aa44133704c945097 lib/CommitBit/Notification/ConfirmAddress.pm
+SHA1 f50fbb1eba8e021a4cc3ad1bcb3d6a5665065ebb lib/CommitBit/Notification/InviteToProject.pm
+SHA1 4ef465123e60f95361ea310168284c6ff6b3fec0 lib/CommitBit/Record.pm
+SHA1 73b3154249cf9a88f8d1976fcb52749f3abfd88a lib/CommitBit/Test.pm
+SHA1 c7fa41f33ab020a56caeef9077149515624685a7 share/web/static/css/app.css
+SHA1 a37b79a9ca2e46f7ea50448078b70b1d6b248d0a share/web/static/css/nav.css
+SHA1 c09a05700211535494f71e456f01d2c28fe9c703 share/web/templates/admin/create_repository
+SHA1 1a2fe5f40dcbd0f366370e3b6850fe12c746a5ce share/web/templates/admin/index.html
+SHA1 59c440598a37ccecb8291f859bf33a955d8eed01 share/web/templates/admin/project/index.html
+SHA1 94a4ac102f85f57b8fc41ba8e01cf8eafed456f0 share/web/templates/admin/project/people
+SHA1 3ae3e1701add37378d502f4586fa9fd975ce6435 share/web/templates/admin/projects
+SHA1 45700b73bc0b7331f3d20a8fcd910efc35494520 share/web/templates/admin/repositories
+SHA1 190cca3aeb5f8301100f421aeb9c334c6bfff7fd share/web/templates/admin/repository/index.html
+SHA1 8b386731d71359bb4f63f4b64446e8e5508916b5 share/web/templates/admin/repository/projects
+SHA1 999b5d10f4d43880ef1ac8a274423de4aa056f0c share/web/templates/index.html
+SHA1 e8cb18ec931e802b109af34aef85cbac867216fb share/web/templates/let/set_password
+SHA1 9a1c6d00d1b2878e045cd683deaf97d7afe8e9de share/web/templates/login
+SHA1 e38eaf6f5d52cf5050df5803cf13623b14ecd96d share/web/templates/logout
+SHA1 8637a54816f2fc23450c8775da3a87264ab06c14 share/web/templates/prefs
+SHA1 2ced4a96faf27b927c7ef2970360a6b6608c4540 share/web/templates/project/index.html
+SHA1 1069a79533d0cef7eee2652fb2c9029c19a9aa03 share/web/templates/signup
+SHA1 579ff6b109f17bfc403b3027197267b6bb14e750 t/00-model-Project.t
+SHA1 8de77058aad70fd6110f277ecabba0ecc4a8bc96 t/00-model-ProjectMember.t
+SHA1 780092b9be9f040175d7847597d0eca0daa0d431 t/00-model-Repository.t
+SHA1 76db6cd080b3d9ceec71fb14fa52862936f8097d t/00-model-User.t
+SHA1 801e13865be6bf74327ff4d10b44520e0859af34 t/01-dependencies.t
+SHA1 9943f623fad0e97ebb90f04cf2c46330224a9546 t/authz.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.3 (Darwin)
+
+iD8DBQFFD943Ei9d9xCOQEYRAqiUAKCE3vdlpCqWkUbW7UgxkWIaJ6VgLQCgjqIc
+3XI91mApf5AyLiigKbUcY9k=
+=7Imt
+-----END PGP SIGNATURE-----
