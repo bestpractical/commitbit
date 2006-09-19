@@ -11,6 +11,7 @@ before 'logout' => run {
 };
 before '*' => run {
     if (Jifty->web->current_user->id) {
+        Jifty->web->navigation->child( prefs=>label=>_( 'Preferences'), url => '/prefs', sort_order => 998);
         Jifty->web->navigation->child( logout=>label=>_( 'Logout'), url => '/logout', sort_order => 999);
     } else {
         Jifty->web->navigation->child(login=>label=>_( 'Login'), url => '/login', sort_order => 999);
@@ -21,7 +22,7 @@ before '*' => run {
 
 };
 
-before '/admin/' => run {
+before qr'/admin/|/prefs' => run {
     unless (Jifty->web->current_user->id) {
             tangent '/login';
     }
@@ -34,6 +35,20 @@ on 'signup' => run {
         Jifty->web->new_action(
 	    class => 'Signup',
 	    moniker => 'signupbox'
+	);
+
+    set 'next' => Jifty->web->request->continuation
+        || Jifty::Continuation->new(
+        request => Jifty::Request->new( path => "/" ) );
+
+};
+
+on 'prefs' => run {
+    set 'action' =>
+        Jifty->web->new_action(
+	    class => 'UpdateUser',
+	    moniker => 'prefsbox',
+        record => Jifty->web->current_user->user_object
 	);
 
     set 'next' => Jifty->web->request->continuation

@@ -66,6 +66,15 @@ sub current_user_can {
     elsif (($right eq 'create' or $right eq 'update' or $right eq 'delete') and ($self->current_user->user_object && $self->current_user->user_object->admin)) {
         return 1;
     }
+
+    if ($right eq 'update' and ($self->current_user->user_object == $self->id)) {
+        if ($args{'column'} =~ /^(?:nickname|password)$/) {
+            return 1;
+        }
+
+
+    }
+
     return $self->SUPER::current_user_can(@_);
 }
 1;
