@@ -5,6 +5,8 @@ $project
 my $edit = Jifty->web->new_action(class =>'UpdateProject', record => $project);
 </%init>
 <&|/_elements/wrapper,title => $project->name &>
+<div class="yui-gc">
+<div class="yui-u first">
 <h1><%$project->name%></h1>
 <blockquote>
     <%$project->description%>
@@ -36,7 +38,8 @@ my $edit = Jifty->web->new_action(class =>'UpdateProject', record => $project);
 <h3>Committer access</h3>
 <%Jifty->web->link( url => $project->svn_url_auth, label => $project->svn_url_auth)%>
 <h2>License</h2>
-
+</div>
+<div class="yui-u">
 <div id="people">
     <h2>People</h2>
 
@@ -49,6 +52,8 @@ my $edit = Jifty->web->new_action(class =>'UpdateProject', record => $project);
 % }
 </ul>
 %}
+</div>
+</div>
 </div>
 </&>
 <%init>
