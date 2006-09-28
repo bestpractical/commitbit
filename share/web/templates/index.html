@@ -27,8 +27,10 @@
 my $projects = CommitBit::Model::ProjectCollection->new;
 $projects->unlimit();
 $projects->order_by({ column => 'name', order => 'asc'});
+$projects->limit(column => 'publicly_visible', operator => '=',  value => '1' );
 my $featured = CommitBit::Model::ProjectCollection->new;
 $featured->limit(column => 'featured', operator => '=',  value => '1' );
+$featured->limit(column => 'publicly_visible', operator => '=',  value => '1' );
 $featured->order_by({ column => 'name', order => 'asc'});
 
 
