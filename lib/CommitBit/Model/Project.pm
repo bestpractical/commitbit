@@ -9,6 +9,10 @@ use CommitBit::Model::Repository;
 use CommitBit::Record schema {
     column 'name' =>
         type is 'text';
+    column 'blurb' => 
+        type is 'text',
+        render_as 'textarea',
+        since '0.0.2';
     column 'description' => 
         type is 'text';
     column 'root_path' =>
@@ -17,6 +21,9 @@ use CommitBit::Record schema {
         is immutable,
         refers_to CommitBit::Model::Repository;
 
+    column 'logo_url' => 
+        type is 'text',
+        since '0.0.3';
 
     column 'svn_url_anon' => type is 'text';
     column 'svn_url_auth' => type is 'text';
@@ -27,6 +34,10 @@ use CommitBit::Record schema {
     column 'license' => type is 'text',
         valid_values are ('GPLv2' ,'Perl 5.8', 'Artistic 2.0', 'BSD', 'MIT', 'Death and repudiation');
 
+    column 'featured' =>
+        type is 'boolean',
+        default is 'false',
+        since '0.0.2';
     column 'publicly_visible' =>
         type is 'boolean',
         default is 'true';

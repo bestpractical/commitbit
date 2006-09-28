@@ -1,14 +1,34 @@
 <&|/_elements/wrapper, title => _('Welcome to CommitBit for %1', Jifty->config->app('site_name')) &>
 
-
-<h2><%_('Locally hosted projects')%></h2>
+<div class="featured">
+<h2><%('Featured projects')%></h2>
 <dl>
-% my $projects = CommitBit::Model::ProjectCollection->new;
-% $projects->unlimit();
+% while ( my $p = $featured->next ) {
+<dt>
+% if ($p->logo_url) {
+<img src="<%$p->logo_url%>"/>
+% }
+<%Jifty->web->link( url => '/project/'.$p->name, label => $p->name)%></dt>
+<dd><%$p->blurb|n%></dd>
+% }
+</dl>
+</div>
+
+<h2><%_('All locally hosted projects')%></h2>
+<dl>
 % while ( my $p = $projects->next ) {
 <dt><%Jifty->web->link( url => '/project/'.$p->name, label => $p->name)%></dt>
-<dd<%$p->description%></dd>
+<dd><%$p->description%></dd>
 % }
 </dl>
 
 </&>
+<%init>
+my $projects = CommitBit::Model::ProjectCollection->new;
+$projects->unlimit();
+
+my $featured = CommitBit::Model::ProjectCollection->new;
+$featured->limit(column => 'featured', operator => '=',  value => '1' );
+
+
+</%init>

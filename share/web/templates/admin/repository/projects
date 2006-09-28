@@ -14,10 +14,9 @@
 % }
 </ul>
 <h2><%_('Add a new project')%></h2>
-<% $new_project->form_field('name')%>
-<% $new_project->form_field('description')%>
-<% $new_project->form_field('root_path')%>
-<% $new_project->form_field('repository', render_as => 'Hidden')%>
+% foreach my $arg ($new_project->argument_names) {
+<%$new_project->form_field($arg)%>
+%}
 <% Jifty->web->form->submit(submit => $new_project, label => 'Create project')%>
 <% Jifty->web->form->end%>
 </&>

@@ -11,7 +11,4 @@ my $edit = Jifty->web->new_action(class =>'UpdateProject', record => $project);
 %}
 <% Jifty->web->form->submit(label => 'Save changes')%>
 % Jifty->web->form->end;
-
-
-<%Jifty->web->link( label => 'People', url => '/admin/project/'.$project->name.'/people')%>
 </&>
