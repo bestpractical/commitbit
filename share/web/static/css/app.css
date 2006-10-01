@@ -1,9 +1,10 @@
 #hd {
     position: relative;
+    margin-top: 1em;
 }
 #salutation {
     position: absolute;
-    top: 0.8em;
+    top: -1em;
     right: 0;
 }
 h1, h2, h3, h4, h5, h6 {
