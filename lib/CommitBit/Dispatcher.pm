@@ -10,15 +10,45 @@ before 'logout' => run {
     )->run;
 };
 before '*' => run {
-    if (Jifty->web->current_user->id) {
-        Jifty->web->navigation->child( prefs=>label=>_( 'Preferences'), url => '/prefs', sort_order => 998);
-        Jifty->web->navigation->child( logout=>label=>_( 'Logout'), url => '/logout', sort_order => 999);
+        Jifty->web->navigation->child(
+                 Home => # override the jifty default. ew
+
+                label => _('Home'),
+            url        => '/',
+            sort_order => 1);
+
+
+    if ( Jifty->web->current_user->id ) {
+        Jifty->web->navigation->child(
+            prefs     =>
+                label => _('Preferences'),
+            url        => '/prefs',
+            sort_order => 998
+        );
+        Jifty->web->navigation->child(
+            logout    =>
+                label => _('Logout'),
+            url        => '/logout',
+            sort_order => 999
+        );
     } else {
-        Jifty->web->navigation->child(login=>label=>_( 'Login'), url => '/login', sort_order => 999);
+        Jifty->web->navigation->child(
+            login     =>
+                label => _('Login'),
+            url        => '/login',
+            sort_order => 999
+        );
     }
-    if (Jifty->web->current_user->user_object and Jifty->web->current_user->user_object->admin) {
-        Jifty->web->navigation->child(admin=>label=>_( 'Admin'), url => '/admin');
-   }
+
+    if (    Jifty->web->current_user->user_object
+        and Jifty->web->current_user->user_object->admin )
+    {
+        Jifty->web->navigation->child(
+            admin     =>
+                label => _('Admin'),
+            url => '/admin'
+        );
+    }
 
 };
 
@@ -89,15 +119,23 @@ on qr'^/let/' => run {
 
 
 before qr'^/admin' => run {
-    my $admin =   Jifty->web->navigation->child('admin');
-     $admin->child( 'repos' => label => 'Repositories', url => '/admin/repositories');
+    my $admin =   Jifty->web->navigation->child('admin') || Jifty->web->navigation->child( admin => label => _('Admin'), url => '/admin');
+    if (Jifty->web->current_user->user_object->admin ) {
+        $admin->child( 'repos' => label => 'Repositories', url => '/admin/repositories');
+    }
      $admin->child( 'proj' => label => 'Projects', url => '/admin/projects');
 
 
 };
 
+before qr'^/admin/repository' => run {
+    unless  (Jifty->web->current_user->user_object->admin ) {
+        redirect '/__jifty/error/permission_denied/not_admin'; 
+    }
+
+};
+
 before qr'^/admin/project/([^/]+)(/.*|)$' => run  {
-    warn "Setting nav";
     my $admin =   Jifty->web->navigation->child('admin')->child('proj');
     my $proj = $admin->child( $1 => label => $1, url => '/admin/project/'.$1.'/index.html');
     $proj->child( base => label => _('Overview'), url => '/admin/project/'.$1.'/index.html'); 
@@ -131,6 +169,11 @@ on qr'^/(.*?/)?project/([^/]+)(/.*|)$' => run {
     my $path    = $3;
     warn "Got to $1 $2 $3";
 
+
+    unless (lc($prefix) eq 'admin') {
+        Jifty->web->navigation->child(admin => label => _('Admin project'), url =>  '/admin/project/'.$name, order => 5);
+    }
+
     $name = URI::Escape::uri_unescape($name);
     my $project = CommitBit::Model::Project->new();
     $project->load_by_cols( name => $name );
@@ -138,10 +181,15 @@ on qr'^/(.*?/)?project/([^/]+)(/.*|)$' => run {
         redirect '/__jifty/error/project/not_found';
     }
 
+    if (lc($prefix) eq 'admin') {
+    unless  ($project->is_project_admin(Jifty->web->current_user)
+             or Jifty->web->current_user->user_object->admin) {
+        redirect '/__jifty/error/permission_denied/not_admin'; 
+    }
+    }
+
     set project => $project;
     my $url = $prefix . ($path ? '/project/' . $path : '/project/index.html' );
-
-#    Jifty->web->navigation->child( $project->name => label => $project->name, url => $ENV{'REQUEST_URI'});
 
     show $url;
 };

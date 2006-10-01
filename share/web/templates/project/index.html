@@ -66,6 +66,11 @@ my $edit = Jifty->web->new_action(class =>'UpdateProject', record => $project);
 % }
 </ul>
 %}
+% if (Jifty->web->current_user->user_object) {
+% if ($project->is_project_admin(Jifty->web->current_user) || Jifty->web->current_user->user_object->admin) { 
+<% Jifty->web->link( label => _('Invite someone'), url => '/admin/project/'.$project->name.'/people')%>
+% }
+% }
 </div>
 </div>
 </div>

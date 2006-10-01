@@ -10,8 +10,8 @@ use CommitBit::Record schema {
     column 'email' => type is 'text', is 'distinct', is 'immutable', is 'mandatory';
     column 'password' => type is 'text', render_as 'password';
     column 'created' => type is 'timestamp', is immutable;
-    column admin => type is 'boolean', default is 'false';
-    column email_confirmed => type is 'boolean', default is 'false';
+    column admin => type is 'boolean', default is '0';
+    column email_confirmed => type is 'boolean', default is '0';
 
 };
 
@@ -66,7 +66,7 @@ sub current_user_can {
         return 1;
     }
 
-    if ($right eq 'update' and ($self->current_user->user_object == $self->id)) {
+    if ($right eq 'update' and ($self->current_user->user_object->id == $self->id)) {
         if ($args{'column'} =~ /^(?:nickname|password)$/) {
             return 1;
         }
