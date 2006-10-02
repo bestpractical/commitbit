@@ -11,4 +11,4 @@ requires:
   Module::CoreList: 0
   Text::Password::Pronounceable: 0
   UNIVERSAL::require: 0
-version: 0.01
+version: 0.02
