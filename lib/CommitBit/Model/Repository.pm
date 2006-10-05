@@ -12,7 +12,7 @@ use CommitBit::Record schema {
 
         column name =>
             type is 'text',
-            is distinct;
+            is distinct,
             is mandatory;
         column local_path =>
             type is 'text';
