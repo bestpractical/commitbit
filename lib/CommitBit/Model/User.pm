@@ -66,7 +66,7 @@ sub current_user_can {
         return 1;
     }
 
-    if ($right eq 'update' and ($self->current_user>user_object &&& ($self->current_user->user_object->id == $self->id))) {
+    if ($right eq 'update' and ($self->current_user>user_object && ($self->current_user->user_object->id == $self->id))) {
         if ($args{'column'} =~ /^(?:nickname|password)$/) {
             return 1;
         }
