@@ -1,4 +1,5 @@
 use inc::Module::Install;
+
 name('CommitBit');
 version_from('lib/CommitBit.pm');
 requires('Jifty' => '0.60728');
