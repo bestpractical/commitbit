@@ -6,6 +6,7 @@ package CommitBit::Model::Repository;
 use Jifty::DBI::Schema;
 use File::Spec;
 use File::Path;
+use Path::Class 'dir';
 use Cwd 'abs_path';
 
 use CommitBit::Record schema {
@@ -215,19 +216,14 @@ sub write_authz_file {
         foreach my $project (@projects) {
             print $file "[/" . $project->root_path . "]\n" || die $@;
 
-            my @matching_projects = grep {
-                my $item = $_->root_path;
-                substr( $project->root_path ."/", 0, length( $item)+1 ) eq $item."/"
-                    ? 1
-                    : 0
-            } @projects;
+            my @matching_projects = grep { dir("/".$_->root_path)->subsumes("/".$project->root_path) }@projects;
 
             foreach my $proj (@matching_projects) {  
-            foreach my $user ( @{
-                                    $proj->write_members->items_array_ref},
-                                    @{$proj->admin_members->items_array_ref
-                                } ) {
+            foreach my $user ( @{ $proj->write_members->items_array_ref}, @{$proj->admin_members->items_array_ref } ) {
                 print $file ($user->nickname ||$user->person->email) . " = rw\n" || die $@;
+            }
+            foreach my $user ( @{ $proj->read_members->items_array_ref}) {
+                print $file ($user->nickname ||$user->person->email) . " = r\n" || die $@;
             }
             }
             if ($project->publicly_visible) {
