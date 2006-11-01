@@ -213,8 +213,8 @@ sub write_authz_file {
         while ( my $project = $projects->next ) {
             print $file "[/" . $project->root_path . "]\n" || die $@;
             foreach my $user ( @{
-                                    $project->write_members->items_array_ref,
-                                    $project->admin_members->items_array_ref
+                                    $project->write_members->items_array_ref},
+                                    @{$project->admin_members->items_array_ref
                                 } ) {
                 print $file ($user->nickname ||$user->person->email) . " = rw\n" || die $@;
             }
