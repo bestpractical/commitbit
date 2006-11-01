@@ -14,7 +14,10 @@ use CommitBit::Record schema {
         refers_to CommitBit::Model::User;
     column project =>
         refers_to CommitBit::Model::Project;
-
+    column nickname =>
+        type is 'text',
+        label is 'Username',
+        since '0.0.4';
     column access_level =>
         type is 'text',
         valid_values are qw(observer author administrator),
@@ -29,10 +32,16 @@ sub create {
     my %args = (@_);
    
     $args{'person'} = $self->_email_to_id($args{'person'});
+    
+    my $obj = CommitBit::Model::ProjectMember->new();
+    $obj->load_by_cols( project => $args{'project'}, nickname => $args{'nickname'});
+    if ($obj->id && $obj->person->id != $args{'person'}) {
+            return( undef, "That nickname is in use. Sorry about that.");
+    }
 
     my (@result) = $self->SUPER::create(%args);
     if ($self->id) {
-        my $invite = CommitBit::Notification::InviteToProject->new( project => $self->project, to => $self->person, sender =>$self->current_user->user_object, access_level => $self->access_level)->send;
+        my $invite = CommitBit::Notification::InviteToProject->new( project => $self->project, to => $self->person, sender =>$self->current_user->user_object, access_level => $self->access_level, nickname => $self->nickname)->send;
 
     }
     return (@result);
@@ -46,6 +55,18 @@ sub validate_person {
     return undef;
 
 }
+
+sub validate_nickname  {
+    my $self = shift;
+    my $nick = shift;
+    my $obj = CommitBit::Model::ProjectMember->new();
+    $obj->load_by_cols( project => $self->project->id, nickname => $nick);
+    if ($obj->id && $obj->person->id != $self->person->id) {
+            return undef;
+    }
+    return 1;
+}
+
 
 sub set_person {
     my $self = shift;

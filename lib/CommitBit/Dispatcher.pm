@@ -134,14 +134,6 @@ before qr'^/admin/repository' => run {
     }
 
 };
-
-before qr'^/admin/project/([^/]+)(/.*|)$' => run  {
-    my $admin =   Jifty->web->navigation->child('admin')->child('proj');
-    my $proj = $admin->child( $1 => label => $1, url => '/admin/project/'.$1.'/index.html');
-    $proj->child( base => label => _('Overview'), url => '/admin/project/'.$1.'/index.html'); 
-    $proj->child( people => label => _('People'), url => '/admin/project/'.$1.'/people'); 
-};
-
 on qr'^/admin/repository/([^/]+)(/.*|)$' => run {
     my $name    = $1;
     my $path    = $2||'index.html';
@@ -163,6 +155,14 @@ on qr'^/admin/repository/([^/]+)(/.*|)$' => run {
 
 
 
+on qr'^/admin/project/([^/]+)(/.*|)$' => run  {
+    my $admin =   Jifty->web->navigation->child('admin')->child('proj');
+    my $proj = $admin->child( "111".$1 => label => $1, url => '/admin/project/'.$1.'/index.html');
+    $proj->child( base => label => _('Overview'), url => '/admin/project/'.$1.'/index.html'); 
+    $proj->child( people => label => _('People'), url => '/admin/project/'.$1.'/people'); 
+};
+
+
 on qr'^/(.*?/)?project/([^/]+)(/.*|)$' => run {
     my $prefix = $1 ||'';
     my $name    = $2;
@@ -170,7 +170,7 @@ on qr'^/(.*?/)?project/([^/]+)(/.*|)$' => run {
     warn "Got to $1 $2 $3";
 
 
-    unless (lc($prefix) eq 'admin') {
+    if ( (lc($prefix) ne 'admin') && !  Jifty->web->navigation->child('admin') ) {
         Jifty->web->navigation->child(admin => label => _('Admin project'), url =>  '/admin/project/'.$name, order => 5);
     }
 

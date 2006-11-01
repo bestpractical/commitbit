@@ -59,12 +59,57 @@ sub create {
 }
 
 
+sub _related_members {
+    my $self = shift;
+    my $members = CommitBit::Model::ProjectMemberCollection->new();
+    $members->limit(column => 'project', value => $self->id);
+    return $members;
+}
+
+
 sub _related_people {
     my $self = shift;
     my $members = CommitBit::Model::UserCollection->new();
     my $projmembers =$members->join( alias1 => 'main', column1=>'id', table2 => 'project_members', column2 => 'person');
     $members->limit(alias =>$projmembers, column => 'project', value => $self->id);
     return $projmembers => $members;
+}
+
+
+sub all_members { return shift->_related_members() }
+
+sub read_members {
+    my $members = shift->_related_members();
+    $members->limit(
+        column           => 'access_level',
+        operator         => '=',
+        value            => 'observer',
+        entry_aggregator => 'or'
+    );
+
+    return $members;
+}
+
+sub write_members {
+    my $members = shift->_related_members();
+    $members->limit(
+        column           => 'access_level',
+        operator         => '=',
+        value            => 'author',
+        entry_aggregator => 'or'
+    );
+    return $members;
+}
+
+sub admin_members {
+    my $members = shift->_related_members();
+    $members->limit(
+        column           => 'access_level',
+        operator         => '=',
+        value            => 'administrator',
+        entry_aggregator => 'or'
+    );
+    return $members;
 }
 
 

@@ -11,6 +11,7 @@ sub arguments {
     my $args = $self->SUPER::arguments();
     delete $args->{'person'}{valid_values}; 
     $args->{'person'}{'render_as'} = 'Text';
+    $args->{'person'}{'label'} = _("Email address");
     $args->{'person'}{'hints'} = _('Please enter an email address. CommitBit will take care of the rest');
     
     return $args;

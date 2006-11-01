@@ -5,7 +5,7 @@ package CommitBit::Notification::InviteToProject;
 use base qw/CommitBit::Notification/;
 
 
-__PACKAGE__->mk_accessors(qw/project sender access_level/);
+__PACKAGE__->mk_accessors(qw/project sender access_level nickname/);
 
 =head1 NAME
 
@@ -55,7 +55,7 @@ The project uses Subversion to manage its codebase. To check code, in or out of 
 
     @{[$project->svn_url_auth]}
 
-Your username is: @{[$user->email]}
+Your username is: @{[$self->nickname || $user->email]}
 
 @{[$confirm_message]}
 

@@ -7,7 +7,7 @@
 % my $member = CommitBit::Model::ProjectMember->new();
 % $member->load_by_cols (project => $project, person => $committer);
 % my $del = Jifty->web->new_action(class => 'DeleteProjectMember', record => $member, moniker => 'delete-member-'.$member->id);
-<li><%$committer->name_and_email%>  (<%$member->access_level%>)
+<li><%$member->nickname || $committer->email%>:  <%$committer->name_and_email%>  (<%$member->access_level%>)
 <%$del->form_field('id')%>
     <% $del->button( label    => 'Delete',
                                class    => 'delete',
@@ -18,6 +18,7 @@
 </ul>
 <h2><%_('Add a new committer')%></h2>
 <% $new_committer->form_field('person')%>
+<% $new_committer->form_field('nickname')%>
 <% $new_committer->form_field('access_level')%>
 <% $new_committer->form_field('project', render_as => 'Hidden')%>
 
