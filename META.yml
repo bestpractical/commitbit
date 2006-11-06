@@ -1,6 +1,8 @@
+abstract: A project administration tool
+author: Jesse Vincent and Chia-liang Kao
 distribution_type: module
 generated_by: Module::Install version 0.64
-license: Perl
+license: artistic
 name: CommitBit
 no_index: 
   directory: 
@@ -9,6 +11,8 @@ no_index:
 requires: 
   Jifty: 0.60728
   Module::CoreList: 0
+  Path::Class: 0
   Text::Password::Pronounceable: 0
   UNIVERSAL::require: 0
+  perl: 5.6.0
 version: 0.02
