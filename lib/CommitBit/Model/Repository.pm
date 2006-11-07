@@ -6,7 +6,7 @@ package CommitBit::Model::Repository;
 use Jifty::DBI::Schema;
 use File::Spec;
 use File::Path;
-use Digest::SHA;
+use Digest::SHA qw/sha1_base64/;
 use Path::Class 'dir';
 use Cwd 'abs_path';
 
