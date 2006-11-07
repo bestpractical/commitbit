@@ -180,7 +180,6 @@ sub write_htpasswd_file {
         my $users = $self->associated_members;
         while (my $user = $users->next) {
             my $line = ($user->nickname||$user->person->email).":{SHA}". sha1_base64($user->person->__value('password'))."=\n"; 
-            chomp $line;
             print $fh $line;
         }
     };
