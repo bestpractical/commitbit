@@ -7,7 +7,12 @@
 % my $member = CommitBit::Model::ProjectMember->new();
 % $member->load_by_cols (project => $project, person => $committer);
 % my $del = Jifty->web->new_action(class => 'DeleteProjectMember', record => $member, moniker => 'delete-member-'.$member->id);
-<li><%$member->nickname || $committer->email%>:  <%$committer->name_and_email%>  (<%$member->access_level%>)
+<li><%$member->nickname || $committer->email%>:  <%$committer->name_and_email%>
+% if ($committer->email_confirmed) {
+(<%$member->access_level%>)
+% } else {
+(<em><%$member->access_level%>, pending</em>)
+% }
 <%$del->form_field('id')%>
     <% $del->button( label    => 'Delete',
                                class    => 'delete',
