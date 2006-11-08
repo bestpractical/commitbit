@@ -1,6 +1,15 @@
 <&|/_elements/wrapper, title => _('People involved with %1',$project->name)&>
 
 <% Jifty->web->form->start%>
+<h2><%_('Add a new committer')%></h2>
+<% $new_committer->form_field('person')%>
+<% $new_committer->form_field('nickname')%>
+<% $new_committer->form_field('access_level')%>
+<% $new_committer->form_field('project', render_as => 'Hidden')%>
+
+<% Jifty->web->form->submit(submit => $new_committer, label => 'Invite em!')%>
+
+<h2><%_('Current committers')%></h2>
 % my $committers = $project->people;
 <ul>
 % while (my $committer = $committers->next) {
@@ -21,13 +30,6 @@
                                </li>
 % }
 </ul>
-<h2><%_('Add a new committer')%></h2>
-<% $new_committer->form_field('person')%>
-<% $new_committer->form_field('nickname')%>
-<% $new_committer->form_field('access_level')%>
-<% $new_committer->form_field('project', render_as => 'Hidden')%>
-
-<% Jifty->web->form->submit(submit => $new_committer, label => 'Invite em!')%>
 <% Jifty->web->form->end%>
 </&>
 <%init>
