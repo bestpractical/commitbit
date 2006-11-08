@@ -32,7 +32,7 @@ use CommitBit::Record schema {
     column 'bugtracker_url' => type is 'text';
     column 'lists_url' => type is 'text';
     column 'license' => type is 'text',
-        valid_values are ('GPLv2' ,'Perl 5.8', 'Artistic 2.0', 'BSD', 'MIT', 'Death and repudiation');
+        valid_values are ('GPLv2' ,'Perl 5.8', 'Artistic 2.0', 'BSD', 'MIT', 'Apache 2.0', 'Death and repudiation');
 
     column 'featured' =>
         type is 'boolean',
