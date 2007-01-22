@@ -7,7 +7,7 @@ use Jifty::DBI::Schema;
 
 use CommitBit::Record schema {
     column 'nickname' => type is 'text';
-    column 'email' => type is 'text', is 'distinct', is 'immutable', is 'mandatory';
+    column 'email' => type is 'text', is distinct, is immutable, is mandatory;
     column 'password' => type is 'text', render_as 'password';
     column 'created' => type is 'timestamp', is immutable;
     column admin => type is 'boolean', default is '0';
