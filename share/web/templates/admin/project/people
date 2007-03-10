@@ -25,7 +25,7 @@
 <%$del->form_field('id')%>
     <% $del->button( label    => 'Delete',
                                class    => 'delete',
-                               onclick  => qq|return confirm('Really revoke this person's project access?');| ) %>
+                               onclick  => {confirm => q{Really revoke this person's project access?}} ) %>
                                
                                </li>
 % }
