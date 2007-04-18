@@ -9,6 +9,7 @@ no_index:
     - inc
     - t
 requires: 
+  Digest::SHA: 0
   Jifty: 0.60728
   Module::CoreList: 0
   Path::Class: 0

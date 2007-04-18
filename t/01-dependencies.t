@@ -57,7 +57,7 @@ my %required;
 for (sort keys %used) {
     my $first_in = Module::CoreList->first_release($_);
     next if defined $first_in and $first_in <= 5.00803;
-    next if /^(CommitBit|Jifty|Jifty::DBI|inc|t|TestApp|Application)(::|$)/;
+    next if /^(5|CommitBit|Jifty|Jifty::DBI|inc|t|TestApp|Application)(::|$)/;
     ok(exists $required{$_}, "$_ in Makefile.PL")
       or diag("used in ", join ", ", sort keys %{ $used{$_ } });
     delete $used{$_};
