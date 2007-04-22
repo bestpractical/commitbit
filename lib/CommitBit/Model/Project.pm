@@ -6,6 +6,7 @@ use Jifty::DBI::Schema;
 
 use CommitBit::Model::Repository;
 
+
 use CommitBit::Record schema {
     column 'name' =>
         type is 'text';

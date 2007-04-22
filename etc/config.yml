@@ -10,13 +10,16 @@ framework:
     Password: ''
     RecordBaseClass: Jifty::DBI::Record::Cachable
     User: ''
-    Version: 0.0.4
+    Version: 0.0.15
   DevelMode: 0
   L10N: 
     PoDir: share/po
   LogLevel: DEBUG
-  Mailer: Sendmail
+  Mailer: IO
   MailerArgs: []
+  Plugins: 
+     - Authentication::Password: {}
+     - LetMe: {}
   Web: 
     BaseURL: http://localhost
     DataDir: var/mason

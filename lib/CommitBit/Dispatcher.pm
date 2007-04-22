@@ -2,22 +2,7 @@ package CommitBit::Dispatcher;
 use Jifty::Dispatcher -base;
 
 
-# Log out
-before 'logout' => run {
-    Jifty->web->new_action(
-        class   => 'Logout',
-        moniker => 'logout',
-    )->run;
-};
 before '*' => run {
-        Jifty->web->navigation->child(
-                 Home => # override the jifty default. ew
-
-                label => _('Home'),
-            url        => '/',
-            sort_order => 1);
-
-
     if ( Jifty->web->current_user->id ) {
         Jifty->web->navigation->child(
             prefs     =>
@@ -25,19 +10,7 @@ before '*' => run {
             url        => '/prefs',
             sort_order => 998
         );
-        Jifty->web->navigation->child(
-            logout    =>
-                label => _('Logout'),
-            url        => '/logout',
-            sort_order => 999
-        );
     } else {
-        Jifty->web->navigation->child(
-            login     =>
-                label => _('Login'),
-            url        => '/login',
-            sort_order => 999
-        );
     }
 
     if (    Jifty->web->current_user->user_object
@@ -58,21 +31,6 @@ before qr'/admin/|/prefs' => run {
     }
 };
 
-# Sign up for an account
-on 'signup' => run {
-    redirect('/') if ( Jifty->web->current_user->id );
-    set 'action' =>
-        Jifty->web->new_action(
-	    class => 'Signup',
-	    moniker => 'signupbox'
-	);
-
-    set 'next' => Jifty->web->request->continuation
-        || Jifty::Continuation->new(
-        request => Jifty::Request->new( path => "/" ) );
-
-};
-
 on 'prefs' => run {
     set 'action' =>
         Jifty->web->new_action(
@@ -86,37 +44,6 @@ on 'prefs' => run {
         request => Jifty::Request->new( path => "/" ) );
 
 };
-
-# Login
-on 'login' => run {
-    set 'action' =>
-        Jifty->web->new_action(
-	    class => 'Login',
-	    moniker => 'loginbox'
-	);
-    set 'next' => Jifty->web->request->continuation
-        || Jifty::Continuation->new(
-        request => Jifty::Request->new( path => "/" ) );
-};
-
-## LetMes
-before qr'^/let/(.*)' => run {
-    my $let_me = Jifty::LetMe->new();
-    $let_me->from_token($1);
-    redirect '/error/let_me/invalid_token' unless $let_me->validate;
-
-    Jifty->web->temporary_current_user($let_me->validated_current_user);
-
-    my %args = %{$let_me->args};
-    set $_ => $args{$_} for keys %args;
-    set let_me => $let_me;
-};
-
-on qr'^/let/' => run {
-    my $let_me = get 'let_me';
-    show '/let/' . $let_me->path;
-};
-
 
 before qr'^/admin' => run {
     my $admin =   Jifty->web->navigation->child('admin') || Jifty->web->navigation->child( admin => label => _('Admin'), url => '/admin');

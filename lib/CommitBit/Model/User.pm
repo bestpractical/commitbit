@@ -6,14 +6,40 @@ use Text::Password::Pronounceable;
 use Jifty::DBI::Schema;
 
 use CommitBit::Record schema {
-    column 'nickname' => type is 'text';
+    column 'name' => type is 'text';
     column 'email' => type is 'text', is distinct, is immutable, is mandatory;
     column 'password' => type is 'text', render_as 'password';
     column 'created' => type is 'timestamp', is immutable;
     column admin => type is 'boolean', default is '0';
     column email_confirmed => type is 'boolean', default is '0';
 
+column auth_token =>
+  since '0.0.10',
+  render_as 'unrendered',
+  type is 'varchar',
+  default is '',
+  label is _('Authentication token');
+
+
+
+column password =>
+  is mandatory,
+  is unreadable,
+  since '0.0.10',
+  label is _('Password'),
+  type is 'varchar',
+  hints is _('Your password should be at least six characters'),
+  render_as 'password',
+  filters are 'Jifty::DBI::Filter::SaltHash';
+
+
+
 };
+
+use Jifty::Plugin::User::Mixin::Model::User;
+use Jifty::Plugin::Authentication::Password::Mixin::Model::User;
+
+
 
 # Your model-specific methods go here.
 sub _brief_description {
@@ -36,15 +62,9 @@ sub create {
 
 sub name_and_email {
     my $self = shift;
-    return join(' ', ($self->nickname ||''), "<".$self->email.">");
+    return join(' ', ($self->name ||''), "<".$self->email.">");
 }
   
-
-sub auth_token {
-    my $self = shift;
-    return Digest::MD5::md5_hex($self->id . $self->__value('password'));
-
-}
 
 =head2 current_user_can
 
@@ -67,7 +87,7 @@ sub current_user_can {
     }
 
     if ($right eq 'update' and ($self->current_user->user_object && ($self->current_user->user_object->id == $self->id))) {
-        if ($args{'column'} =~ /^(?:nickname|password)$/) {
+        if ($args{'column'} =~ /^(?:name|password)$/) {
             return 1;
         }
 
