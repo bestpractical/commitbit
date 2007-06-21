@@ -1,0 +1,6 @@
+<%init>
+$r->content_type('text/html; charset=utf-8');
+$m->comp('/_elements/nav');
+$m->call_next();
+return;
+</%init>

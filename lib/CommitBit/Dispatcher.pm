@@ -2,6 +2,13 @@ package CommitBit::Dispatcher;
 use Jifty::Dispatcher -base;
 
 
+# Protect elements directories
+before qr'/_elements/' => run { # do not anchor this, runs on _any_ level
+    # Requesting an internal component by hand -- naughty
+  redirect("/errors/requested_private_component");
+}; 
+
+
 before '*' => run {
     if ( Jifty->web->current_user->id ) {
         Jifty->web->navigation->child(

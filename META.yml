@@ -1,8 +1,12 @@
+--- 
 abstract: A project administration tool
 author: Jesse Vincent and Chia-liang Kao
 distribution_type: module
-generated_by: Module::Install version 0.64
+generated_by: Module::Install version 0.67
 license: artistic
+meta-spec: 
+  url: http://module-build.sourceforge.net/META-spec-v1.3.html
+  version: 1.3
 name: CommitBit
 no_index: 
   directory: 
