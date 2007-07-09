@@ -2,7 +2,21 @@
 $action
 $next
 </%args>
-<&|/_elements/wrapper, title => 'Preferences' &>
+
+
+
+<&|/_elements/wrapper, title => 'About me' &>
+
+<div class="svn_password">
+<h2>Subversion Password</h2>
+% my $reset_svn_pw = Jifty->web->new_action(class => 'UpdateUser', record => $action->record);
+<span class="svn_password"><%$action->record->svn_password()%></span>
+<% Jifty->web->form->start(call => $next, name => "resetpw") %>
+<% Jifty->web->form->submit(label => 'Reset SVN Password', submit => $reset_svn_pw) %>
+<% Jifty->web->form->end %>
+</div>
+
+<h2>Preferences</h2>
 <p>Update your password or name. (For now, you can't touch your email address)</p>
 <% Jifty->web->form->start(call => $next, name => "prefbox") %>
 <% $action->form_field('email', render_mode => 'read') %>

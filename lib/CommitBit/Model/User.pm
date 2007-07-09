@@ -15,21 +15,30 @@ use CommitBit::Record schema {
 
 column auth_token =>
   since '0.0.10',
-  render_as 'unrendered',
+  render as 'unrendered',
   type is 'varchar',
   default is '',
   label is _('Authentication token');
 
 
 
+column svn_password =>
+  is mandatory,
+  since '0.0.10',
+  label is _('Subversion Password'),
+  type is 'varchar',
+  default is defer { Text::Password::Pronounceable->generate( 6 => 10) },
+  hints is _('This password should be at least six characters'),
+  render as 'password';
+
 column password =>
   is mandatory,
   is unreadable,
   since '0.0.10',
-  label is _('Password'),
+  label is _('CommitBit Password'),
   type is 'varchar',
   hints is _('Your password should be at least six characters'),
-  render_as 'password',
+  render as 'password',
   filters are 'Jifty::DBI::Filter::SaltHash';
 
 

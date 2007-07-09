@@ -3,10 +3,10 @@
 use lib 'lib';
 
 use Jifty::Everything;
+BEGIN { Jifty->new(); }
 use CommitBit::CurrentUser;
 use CommitBit::Model::User;
 use Getopt::Long;
-Jifty->new();
 my $email;
 GetOptions('email=s' => \$email,
        );
