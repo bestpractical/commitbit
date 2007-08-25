@@ -49,7 +49,7 @@ sub setup {
 
 Hi!
 
-We'd like you to join us as a $access_level for @{[$project->name]}. 
+We'd like you to join us as an $access_level for @{[$project->name]}. 
 
 The project uses Subversion to manage its codebase. To check code, in or out of subversion point your client at:
 
