@@ -46,10 +46,6 @@ on 'prefs' => run {
         record => Jifty->web->current_user->user_object
 	);
 
-    set 'next' => Jifty->web->request->continuation
-        || Jifty::Continuation->new(
-        request => Jifty::Request->new( path => "/" ) );
-
 };
 
 before qr'^/admin' => run {

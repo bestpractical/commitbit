@@ -11,7 +11,7 @@ framework:
     RecordBaseClass: Jifty::DBI::Record::Cachable
     User: ''
     Version: 0.0.15
-  DevelMode: 1
+  DevelMode: 0
   L10N: 
     PoDir: share/po
   LogLevel: DEBUG
@@ -20,6 +20,9 @@ framework:
   Plugins: 
      - Authentication::Password: {}
      - LetMe: {}
+     - CompressedCSSandJS:
+        - css: 1
+        - js: 1
   Web: 
     BaseURL: http://localhost
     DataDir: var/mason

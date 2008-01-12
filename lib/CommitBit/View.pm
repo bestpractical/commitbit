@@ -384,7 +384,6 @@ template 'let/set_password' => page { title => 'Preferences' } content {
 
     p {
         _('Please set a password and nickname.')
-            . _("(For now, you can't touch your email address)");
     };
     with( call => $next, name => "prefbox" ), form {
         render_param( $action => 'email', render_mode => 'read' );
@@ -397,35 +396,33 @@ template 'let/set_password' => page { title => 'Preferences' } content {
 };
 
 template prefs => page { title => 'Preferences' } content {
-    my ( $action, $next ) = get( 'action', 'next' );
+    my  $action = get 'action';
 
     div {
         { class is "svn_password" };
         h2 {'Subversion Password'};
         my $reset_svn_pw = Jifty->web->new_action(
-            class  => 'UpdateUser',
+            class  => 'ResetSvnPassword',
+            moniker => 'svnpass',
             record => $action->record
         );
         span {
             { class is "svn_password" };
-            $action->record->svn_password();
+            $reset_svn_pw->record->svn_password();
         };
-        with( call => $next, name => "resetpw" ), form {
+        form {
             form_submit(
                 label  => 'Reset SVN Password',
-                submit => $reset_svn_pw
+                submit => { action => $reset_svn_pw, arguments => { svn_password => 'nonce'}},
             );
         };
     };
     h2 {'Preferences'};
-    p {
-        _(  "Update your password or name. (For now, you can't touch your email address)"
-        );
-    };
+    p { _(  "Update your password or name.") };
     form {
-        render_param( $action => 'email', render_mode => 'read' );
+        render_param( $action => 'email');
         render_param( $action => 'name' );
-        render_param( $action => 'password' );
+        render_param( $action => 'password');
         render_param( $action => 'password_confirm' );
         form_submit( label => 'Save', submit => $action );
     }

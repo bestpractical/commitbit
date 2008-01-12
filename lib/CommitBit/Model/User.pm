@@ -3,6 +3,9 @@ use warnings;
 
 package CommitBit::Model::User;
 use Text::Password::Pronounceable;
+our $PASSWORD_GEN = Text::Password::Pronounceable->new(8,10);
+
+
 use Jifty::DBI::Schema;
 
 use CommitBit::Record schema {
@@ -19,10 +22,9 @@ use CommitBit::Record schema {
         svn_password => is mandatory,
         since '0.0.10', label is _('Subversion Password'), type is 'varchar',
         default is
-        defer { Text::Password::Pronounceable->generate( 6 => 10 ) },
+        defer { $PASSWORD_GEN->generate() },
         hints is _('This password should be at least six characters'),
-        render as 'password';
-
+        render as 'text';
 };
 
 use Jifty::Plugin::User::Mixin::Model::User;
@@ -37,7 +39,15 @@ sub _brief_description {
 }
 
 
-our $PASSWORD_GEN = Text::Password::Pronounceable->new(8,10);
+sub before_set_svn_password {
+    my $self = shift;
+    my $args_ref = shift;
+
+    $args_ref->{'value'} = $PASSWORD_GEN->generate();
+
+
+
+}
 
 sub create {
     my $self = shift;
