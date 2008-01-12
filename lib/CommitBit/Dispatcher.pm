@@ -53,12 +53,18 @@ on 'prefs' => run {
 };
 
 before qr'^/admin' => run {
-    my $admin =   Jifty->web->navigation->child('admin') || Jifty->web->navigation->child( admin => label => _('Admin'), url => '/admin');
-    if (Jifty->web->current_user->user_object->admin ) {
-        $admin->child( 'repos' => label => 'Repositories', url => '/admin/repositories');
+    my $admin = Jifty->web->navigation->child('admin')
+        || Jifty->web->navigation->child(
+        admin => label => _('Admin'),
+        url   => '/admin'
+        );
+    if ( Jifty->web->current_user->user_object->admin ) {
+        $admin->child(
+            'repos' => label => 'Repositories',
+            url     => '/admin/repositories'
+        );
     }
-     $admin->child( 'proj' => label => 'Projects', url => '/admin/projects');
-
+    $admin->child( 'proj' => label => 'Projects', url => '/admin/projects/' );
 
 };
 
@@ -68,11 +74,9 @@ before qr'^/admin/repository' => run {
     }
 
 };
-on qr'^/admin/repository/([^/]+)(/.*|)$' => run {
+before qr'^/admin/repository/([^/]+)(?:/.*|)$' => run {
     my $name    = $1;
-    my $path    = $2||'index.html';
     $name = URI::Escape::uri_unescape($name);
-    warn "Name - $name - $path";
     my $repository = CommitBit::Model::Repository->new();
     $repository->load_by_cols( name => $name );
     unless ($repository->id) {
@@ -84,16 +88,21 @@ on qr'^/admin/repository/([^/]+)(/.*|)$' => run {
     $radmin->child( $repository->name => label => 'Overview', url => '/admin/repository/'.$name.'/index.html');
     $radmin->child( $repository->name."projects" => label => 'Projects', url => '/admin/repository/'.$name.'/projects');
     set repository => $repository;
+};
+
+on qr'^/admin/repository/(?:[^/]+)(/.*|)$' => run {
+    my $path    = $1||'index.html';
     show "/admin/repository/$path";
 };
 
 
 
-on qr'^/admin/project/([^/]+)(/.*|)$' => run  {
+before qr'^/admin/project/(.*?)(?:\/|$)' => run  {
+    my $proj_name = $1;
     my $admin =   Jifty->web->navigation->child('admin')->child('proj');
-    my $proj = $admin->child( "111".$1 => label => $1, url => '/admin/project/'.$1.'/index.html');
-    $proj->child( base => label => _('Overview'), url => '/admin/project/'.$1.'/index.html'); 
-    $proj->child( people => label => _('People'), url => '/admin/project/'.$1.'/people'); 
+    my $proj = $admin->child( $proj_name => label => $proj_name, url => '/admin/project/'.$proj_name.'/index.html');
+    $proj->child( base => label => _('Overview'), url => '/admin/project/'.$proj_name.'/index.html'); 
+    $proj->child( people => label => _('People'), url => '/admin/project/'.$proj_name.'/people'); 
 };
 
 

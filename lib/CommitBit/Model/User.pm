@@ -6,42 +6,22 @@ use Text::Password::Pronounceable;
 use Jifty::DBI::Schema;
 
 use CommitBit::Record schema {
-    column 'name' => type is 'text';
-    column 'email' => type is 'text', is distinct, is immutable, is mandatory;
-    column 'password' => type is 'text', render_as 'password';
-    column 'created' => type is 'timestamp', is immutable;
-    column admin => type is 'boolean', default is '0';
-    column email_confirmed => type is 'boolean', default is '0';
+    column 'created'       => type is 'timestamp', is immutable;
+    column admin           => type is 'boolean',   default is '0';
+    column email_confirmed => type is 'boolean',   default is '0';
 
-column auth_token =>
-  since '0.0.10',
-  render as 'unrendered',
-  type is 'varchar',
-  default is '',
-  label is _('Authentication token');
+    column
+        auth_token => since '0.0.10',
+        render as 'unrendered', type is 'varchar', default is '',
+        label is _('Authentication token');
 
-
-
-column svn_password =>
-  is mandatory,
-  since '0.0.10',
-  label is _('Subversion Password'),
-  type is 'varchar',
-  default is defer { Text::Password::Pronounceable->generate( 6 => 10) },
-  hints is _('This password should be at least six characters'),
-  render as 'password';
-
-column password =>
-  is mandatory,
-  is unreadable,
-  since '0.0.10',
-  label is _('CommitBit Password'),
-  type is 'varchar',
-  hints is _('Your password should be at least six characters'),
-  render as 'password',
-  filters are 'Jifty::DBI::Filter::SaltHash';
-
-
+    column
+        svn_password => is mandatory,
+        since '0.0.10', label is _('Subversion Password'), type is 'varchar',
+        default is
+        defer { Text::Password::Pronounceable->generate( 6 => 10 ) },
+        hints is _('This password should be at least six characters'),
+        render as 'password';
 
 };
 

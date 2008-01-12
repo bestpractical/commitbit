@@ -11,7 +11,7 @@ framework:
     RecordBaseClass: Jifty::DBI::Record::Cachable
     User: ''
     Version: 0.0.15
-  DevelMode: 0
+  DevelMode: 1
   L10N: 
     PoDir: share/po
   LogLevel: DEBUG
